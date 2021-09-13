@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import GeussedWords from './GeussedWords';
+import GuessedWords from './GeussedWords';
 import { findByTestAttr } from '../test/testUtils';
 
 const defaultProps = {
@@ -24,7 +24,7 @@ const setup = (props = {}) => {
     ...defaultProps,
     ...props,
   };
-  return shallow(<GeussedWords {...setupProps} />);
+  return shallow(<GuessedWords {...setupProps} />);
 };
 
 describe('If there are no words guessed', () => {
