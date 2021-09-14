@@ -10,14 +10,54 @@ import { findByTestAttr } from '../test/testUtils';
  * @param {object} props - Component props specific to this setup
  * @returns  {ShallowWrapper}
  */
-const setup = () => {
-  return shallow(<Input />);
+const setup = (success = false) => {
+  return shallow(<Input success={success} />);
 };
 
-test('Input renders without error.', () => {
-  const wrapper = setup();
-  const inputComponent = findByTestAttr(wrapper, 'component-input');
-  expect(inputComponent.length).toBe(1);
+describe('Render', () => {
+  describe('Success is true.', () => {
+    let wrapper;
+    beforeEach(() => {
+      wrapper = setup(true);
+    });
+
+    test('Input renders without error.', () => {
+      const inputComponent = findByTestAttr(wrapper, 'component-input');
+      expect(inputComponent.length).toBe(1);
+    });
+
+    test('Input box does not show', () => {
+      const inputBox = findByTestAttr(wrapper, 'input-box');
+      expect(inputBox.exists()).toBe(false);
+    });
+
+    test('Submit button does not show', () => {
+      const submitButton = findByTestAttr(wrapper, 'submit-button');
+      expect(submitButton.exists()).toBe(false);
+    });
+  });
+
+  describe('Success is false.', () => {
+    let wrapper;
+    beforeEach(() => {
+      wrapper = setup(false);
+    });
+
+    test('Input renders without error.', () => {
+      const inputComponent = findByTestAttr(wrapper, 'component-input');
+      expect(inputComponent.length).toBe(1);
+    });
+
+    test('Input box shows', () => {
+      const inputBox = findByTestAttr(wrapper, 'input-box');
+      expect(inputBox.exists()).toBe(true);
+    });
+
+    test('Submit button shows', () => {
+      const submitButton = findByTestAttr(wrapper, 'submit-button');
+      expect(submitButton.exists()).toBe(true);
+    });
+  });
 });
 
 describe('State controlled input field', () => {
