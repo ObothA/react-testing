@@ -74,7 +74,7 @@ describe('Guess secret word.', () => {
     });
 
     // add value to input box
-    const inputBox = findByTestAttr(wrapper, 'input=box');
+    const inputBox = findByTestAttr(wrapper, 'input-box');
     const mockEvent = { target: { value: 'party' } };
     inputBox.simulate('change', mockEvent);
 
@@ -94,7 +94,7 @@ describe('Guess secret word.', () => {
   });
 
   test('Does not display input component contents', () => {
-    const inputBox = findByTestAttr(wrapper, 'input=box');
+    const inputBox = findByTestAttr(wrapper, 'input-box');
     expect(inputBox.exists()).toBe(false);
 
     const submitButton = findByTestAttr(wrapper, 'submit-button');
