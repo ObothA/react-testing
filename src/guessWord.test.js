@@ -2,9 +2,13 @@
 
 import React from 'react';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 
 import App from './App';
-import { findByTestAttr } from '../test/testUtils';
+import { findByTestAttr, storeFactory } from '../test/testUtils';
+
+// activate global mock to make sure getSecretWord doesnt make a network call
+jest.mock('./actions');
 
 /**
  * Create a wrapper with specified initial conditions,
@@ -13,10 +17,9 @@ import { findByTestAttr } from '../test/testUtils';
  * @param {object} state - Initital conditions
  * @returns {Wrapper} - Enzyme wrapper of mounted App component
  */
-const setup = (state = {}) => {
-  // TODO: apply state
-
-  const wrapper = mount(<App />);
+const setup = (initialState = {}) => {
+  const store = storeFactory(initialState);
+  const wrapper = mount(<Provider store={store}><App /></Provider>);
 
   // add a value to input box
   const inputBox = findByTestAttr(wrapper, 'input-box');
@@ -29,7 +32,7 @@ const setup = (state = {}) => {
   return wrapper;
 }
 
-describe.skip('No words guessed', () => {
+describe('No words guessed', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = setup({
@@ -45,7 +48,7 @@ describe.skip('No words guessed', () => {
   });
 });
 
-describe.skip('Some words guessed', () => {
+describe('Some words guessed', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = setup({
@@ -61,7 +64,7 @@ describe.skip('Some words guessed', () => {
   });
 });
 
-describe.skip('Guess secret word.', () => {
+describe('Guess secret word.', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = setup({

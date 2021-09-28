@@ -1,4 +1,7 @@
 /* eslint-disable import/first */
+
+// file runs implementation testing, check guessWord.test.js for functional tests
+
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
