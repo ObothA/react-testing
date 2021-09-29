@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
  * @returns  {JSX.Element}
  */
 function Congrats(props) {
+  console.log(props.success);
   if (props.success) {
     return (
       <div data-test='component-congrats' className='alert alert-success'>
