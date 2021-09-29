@@ -1,35 +1,34 @@
-// Writing functional tests
-
 import React from 'react';
 import { mount } from 'enzyme';
 
 import App from './App';
-import { findByTestAttr } from '../test/testUtils';
+import { findByTestAttr } from '../test/testUtils.js';
 
 /**
- * Create a wrapper with specified initial conditions,
- * then submit a guessed word of 'trains'
- * @function
- * @param {object} state - Initital conditions
+ * Create wrapper with specified initial conditions,
+ * then submit a guessed word of 'train'
+ # @function
+ *
+ * @param {object} state - Initial conditions.
  * @returns {Wrapper} - Enzyme wrapper of mounted App component
  */
 const setup = (state = {}) => {
-  // TODO: apply state
 
+  // TODO: apply state
   const wrapper = mount(<App />);
 
-  // add a value to input box
+  // add value to input box
   const inputBox = findByTestAttr(wrapper, 'input-box');
   inputBox.simulate('change', { target: { value: 'train' } });
 
   // simulate click on submit button
   const submitButton = findByTestAttr(wrapper, 'submit-button');
-  submitButton.simulate('click', { preventDefault(){} });
+  submitButton.simulate('click', { preventDefault() {} });
 
   return wrapper;
 }
 
-describe.skip('No words guessed', () => {
+describe.skip('no words guessed', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = setup({
@@ -38,63 +37,58 @@ describe.skip('No words guessed', () => {
       guessedWords: []
     });
   });
-
-  test('Creates the GuessedWords table with one row', () => {
+  test('creates GuessedWords table with one row', () => {
     const guessedWordRows = findByTestAttr(wrapper, 'guessed-word');
     expect(guessedWordRows).toHaveLength(1);
   });
 });
 
-describe.skip('Some words guessed', () => {
+describe.skip('some words guessed', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = setup({
-      secretWord: 'party',
-      success: false,
-      guessedWords: [{ guessedWord: 'agile', letterMatchCount: 1 }]
-    });
+  	wrapper = setup({
+    	secretWord: 'party',
+    	success: false,
+    	guessedWords: [{ guessedWord: 'agile', letterMatchCount: 1 }],
+  	});
   });
-
-  test('Adds row to GuessedWords table', () => {
-    const guessedWordRows = findByTestAttr(wrapper, 'guessed-word');
-    expect(guessedWordRows).toHaveLength(2);
+  test('adds row to guessedWords table', () => {
+    const guessedWordNodes = findByTestAttr(wrapper, 'guessed-word');
+    expect(guessedWordNodes).toHaveLength(2);
   });
 });
 
-describe.skip('Guess secret word.', () => {
+describe.skip('guess secret word', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = setup({
-      secretWord: 'party',
-      success: false,
-      guessedWords: [{ guessedWord: 'agile', letterMatchCount: 1 }]
-    });
+  	wrapper = setup({
+    	secretWord: 'party',
+    	success: false,
+    	guessedWords: [{ guessedWord: 'agile', letterMatchCount: 1 }],
+  	});
 
     // add value to input box
-    const inputBox = findByTestAttr(wrapper, 'input=box');
+    const inputBox = findByTestAttr(wrapper, 'input-box');
     const mockEvent = { target: { value: 'party' } };
     inputBox.simulate('change', mockEvent);
 
-    // simulate click on submit button
-    const submitButton = findByTestAttr(wrapper, 'submit-button');
-    submitButton.simulate('click', { preventDefault(){} });
+  	// simulate click on submit button
+  	const submitButton = findByTestAttr(wrapper, 'submit-button');
+  	submitButton.simulate('click', { preventDefault() {} });
   });
-
-  test('Adds row to GuessedWords table', () => {
-    const guessedWordRows = findByTestAttr(wrapper, 'guessed-word');
-    expect(guessedWordRows).toHaveLength(3);
+  test('adds row to guessedWords table', () => {
+  	const guessedWordNodes = findByTestAttr(wrapper, 'guessed-word');
+  	expect(guessedWordNodes).toHaveLength(3);
   });
-
-  test('Displays congrats component.', () => {
-    const congrats = findByTestAttr(wrapper, 'component-congrats');
-    expect(congrats.text().length).toBeGreaterThan(0);
+  test('displays congrats component', () => {
+  	const congrats = findByTestAttr(wrapper, 'component-congrats');
+  	expect(congrats.text().length).toBeGreaterThan(0);
   });
-
-  test('Does not display input component contents', () => {
-    const inputBox = findByTestAttr(wrapper, 'input=box');
+  test('does not display input component contents', () => {
+    const inputBox = findByTestAttr(wrapper, "input-box");
     expect(inputBox.exists()).toBe(false);
 
-    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    const submitButton = findByTestAttr(wrapper, "submit-button");
     expect(submitButton.exists()).toBe(false);
-  })
+  });
 });

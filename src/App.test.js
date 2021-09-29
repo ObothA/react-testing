@@ -1,21 +1,20 @@
-/* eslint-disable import/first */
 import { mount } from 'enzyme';
-
 import { findByTestAttr } from '../test/testUtils';
 import App from './App';
 
-// activate global mock to make sure getSecretWord doesnt make a network call
+// activate global mock to make sure getSecretWord doesn't make network call
 jest.mock('./actions');
 import { getSecretWord as mockGetSecretWord } from './actions';
 
 /**
- * Set up function for App component
- * @returns {ShallowWrapper}
+ * Setup function for App component
+ * @returns {Wrapper}
  */
 const setup = () => {
-  // use mount, because useEffect not called on 'shallow'
-  return mount(<App/>);
-};
+  // use mount, because useEffect not called on `shallow`
+  // https://github.com/airbnb/enzyme/issues/2086
+  return mount(<App />);
+}
 
 test('renders without error', () => {
   const wrapper = setup();
@@ -25,24 +24,21 @@ test('renders without error', () => {
 
 describe('get secret word', () => {
   beforeEach(() => {
-    // Clear the mock calls from previous tests
+    // clear the mock calls from previous tests
     mockGetSecretWord.mockClear();
-  });
-
-  test('getSecretword on app mount.', () => {
+  })
+  test('getSecretWord on app mount', () => {
     const wrapper = setup();
     expect(mockGetSecretWord).toHaveBeenCalledTimes(1);
   });
-
-  test('getSecretword does not run on app update.', () => {});
+  test('getSecretWord does not run on app update', () => {
     const wrapper = setup();
-
-    // Clear mockGetSecretWord that was called on setup.
     mockGetSecretWord.mockClear();
 
-    // using setProps because wrapper.update() doesnt trigger useEffect
+    // using setProps because wrapper.update() doesn't trigger useEffect
+    // https://github.com/enzymejs/enzyme/issues/2254
     wrapper.setProps();
 
     expect(mockGetSecretWord).toHaveBeenCalledTimes(0);
+  });
 });
- 

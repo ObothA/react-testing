@@ -1,3 +1,1 @@
-# Testing Strategies for react.
-
-Check out the branches.
+This is the context version

@@ -1,17 +1,15 @@
 import moxios from 'moxios';
-
 import { getSecretWord } from './';
 
 describe('getSecretWord', () => {
   beforeEach(() => {
     moxios.install();
   });
-
   afterEach(() => {
     moxios.uninstall();
   });
-
-  test('secretWord is returned.', async () => {
+  test('secretWord is returned', async () => {
+    // Respond with a pre written response.
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
@@ -20,17 +18,9 @@ describe('getSecretWord', () => {
       });
     });
 
-    // update to test app in Redux / context sections
+    const mockSetSecretWord = jest.fn();
+    await getSecretWord(mockSetSecretWord);
 
-    // promises
-    // return getSecretWord()
-    //   .then((secretWord) => {
-    //     expect(secretWord).toBe('party');
-    //   });
-
-    const secretWord = await getSecretWord();
-    expect(secretWord).toBe('party');
-
+    expect(mockSetSecretWord).toHaveBeenCalledWith('party');      
   });
-
 });
