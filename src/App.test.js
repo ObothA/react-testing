@@ -1,9 +1,11 @@
+import React from 'react';
 import { mount } from 'enzyme';
 import { findByTestAttr } from '../test/testUtils';
 import App from './App';
 
 // activate global mock to make sure getSecretWord doesn't make network call
 jest.mock('./actions');
+// eslint-disable-next-line import/first
 import { getSecretWord as mockGetSecretWord } from './actions';
 
 /**
@@ -16,11 +18,41 @@ const setup = () => {
   return mount(<App />);
 }
 
-test('renders without error', () => {
-  const wrapper = setup();
-  const appComponent = findByTestAttr(wrapper, 'component-app');
-  expect(appComponent).toHaveLength(1);
-});
+describe.each([
+  [null, true, false],
+  ['party', false, true],
+])(
+  'Renders with secretWord as %s', (secretWord, loadingShows, appShows) => {
+    let wrapper;
+    let originalUseReducer;
+
+    beforeEach(() => {
+      originalUseReducer = React.useReducer;
+      const mockUseReducer = jest.fn()
+        .mockReturnValue([
+          { secretWord },
+          jest.fn()
+        ]);
+      React.useReducer = mockUseReducer;
+      wrapper = setup();
+    });
+
+    afterEach(() => {
+      React.useReducer = originalUseReducer;
+    });
+
+    test(`Renders loading spinner: ${loadingShows}`, () => {
+      const spinnerComponent = findByTestAttr(wrapper, 'spinner');
+      expect(spinnerComponent.exists()).toBe(loadingShows);
+    });
+
+    test(`Renders app: ${appShows}`, () => {
+      const appComponent = findByTestAttr(wrapper, 'component-app');
+      expect(appComponent.exists()).toBe(appShows);
+    });
+
+  }
+);
 
 describe('get secret word', () => {
   beforeEach(() => {
