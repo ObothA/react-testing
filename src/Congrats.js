@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 /**
  * Functional react component for congragulatory messages
@@ -8,7 +7,6 @@ import PropTypes from 'prop-types';
  * @returns  {JSX.Element}
  */
 function Congrats(props) {
-  console.log(props.success);
   if (props.success) {
     return (
       <div data-test='component-congrats' className='alert alert-success'>
