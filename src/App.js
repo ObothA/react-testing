@@ -13,7 +13,7 @@ function App() {
   const guessedWords = [];
 
   useEffect(() => {
-    getSecretWord();
+    getSecretWord(setSecretWord);
   }, [])
 
   return (
