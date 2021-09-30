@@ -5,6 +5,7 @@ import languageContext from './contexts/languageContext';
 import stringsModule from './helpers/strings';
 
 const GuessedWords = () => {
+  // Dont destrcuture because its needed for testing,
   const [guessedWords] = guessedWordsContext.useGuessedWords();
   const language = React.useContext(languageContext);
   let contents;
