@@ -1,3 +1,6 @@
+// I dont advice you to use this complex pattern, use the context/reducer pattern.
+// or use state and pass the distructured items as values in the context like in the react docs.
+
 import React from 'react';
 
 const successContext = React.createContext();
